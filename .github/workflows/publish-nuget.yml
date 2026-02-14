@@ -20,6 +20,9 @@ jobs:
   wait-for-tests:
     name: Wait for Build and Test Workflow
     runs-on: ubuntu-latest
+    permissions:
+      checks: read
+      contents: read
     steps:
       - name: Wait for all test jobs to complete
         uses: lewagon/wait-on-check-action@v1.3.4
