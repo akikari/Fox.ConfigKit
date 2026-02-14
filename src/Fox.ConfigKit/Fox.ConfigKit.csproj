@@ -2,7 +2,7 @@
 
     <PropertyGroup Label="Framework and Language">
         <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <IsPackable>true</IsPackable>
         <AssemblyName>Fox.ConfigKit</AssemblyName>
         <RootNamespace>Fox.ConfigKit</RootNamespace>
@@ -19,7 +19,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts</PackageOutputPath>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <PackageReleaseNotes>Version 1.0.1: Fix documentation encoding for NuGet.org compatibility.</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 1.0.2: Fix documentation encoding for NuGet.org (rebuild with correct README).</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/akikari/Fox.ConfigKit</RepositoryUrl>
         <PackageProjectUrl>https://github.com/akikari/Fox.ConfigKit</PackageProjectUrl>
