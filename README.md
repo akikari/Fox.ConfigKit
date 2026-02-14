@@ -1,4 +1,6 @@
-# 🎯 Fox.ConfigKit
+# Fox.ConfigKit
+
+> Lightweight .NET configuration validation library with fail-fast startup validation
 
 [![Build Status](https://github.com/akikari/Fox.ConfigKit/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/akikari/Fox.ConfigKit/actions/workflows/build-and-test.yml)
 [![NuGet](https://img.shields.io/nuget/v/Fox.ConfigKit.svg)](https://www.nuget.org/packages/Fox.ConfigKit/)
@@ -591,17 +593,6 @@ All pull requests must pass this requirement.
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
-
-## 👤 Author
-
-**Károly Akácz**
-
-- GitHub: [@akikari](https://github.com/akikari)
-- Repository: [Fox.ConfigKit](https://github.com/akikari/Fox.ConfigKit)
-
-## 📊 Project Status
-
-Current version: **1.0.0**
 
 ## 🔗 Related Projects
 
