@@ -601,7 +601,9 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 ## 📊 Project Status
 
-Current version: **1.0.0**
+Current version: **1.0.3**
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## 🔗 Related Projects
 
