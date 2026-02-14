@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Fox.ConfigKit.Samples.WebApi/Fox.ConfigKit.Samples.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Fox.ConfigKit.ResultKit/Fox.ConfigKit.ResultKit.csproj" />
+    <Project Path="src/Fox.ConfigKit/Fox.ConfigKit.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Fox.ConfigKit.ResultKit.Tests/Fox.ConfigKit.ResultKit.Tests.csproj" />
+    <Project Path="tests/Fox.ConfigKit.Tests/Fox.ConfigKit.Tests.csproj" />
+  </Folder>
+</Solution>

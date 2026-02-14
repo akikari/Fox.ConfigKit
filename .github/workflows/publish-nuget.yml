@@ -1,0 +1,110 @@
+name: Publish to NuGet
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.0.0)'
+        required: true
+        type: string
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
+
+jobs:
+  wait-for-tests:
+    name: Wait for Build and Test Workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for all test jobs to complete
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 20
+          running-workflow-name: 'Wait for Build and Test Workflow'
+          allowed-conclusions: success
+
+  publish:
+    name: Build, Pack, and Publish
+    runs-on: ubuntu-latest
+    needs: wait-for-tests
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Publishing version: $VERSION"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore /p:Version=${{ steps.get_version.outputs.VERSION }}
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Pack Fox.ConfigKit
+        run: dotnet pack src/Fox.ConfigKit/Fox.ConfigKit.csproj --configuration Release --no-build /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
+
+      - name: Pack Fox.ConfigKit.ResultKit
+        run: dotnet pack src/Fox.ConfigKit.ResultKit/Fox.ConfigKit.ResultKit.csproj --configuration Release --no-build /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
+
+      - name: Publish Fox.ConfigKit to NuGet
+        run: dotnet nuget push ./artifacts/Fox.ConfigKit.${{ steps.get_version.outputs.VERSION }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Publish Fox.ConfigKit.ResultKit to NuGet
+        run: dotnet nuget push ./artifacts/Fox.ConfigKit.ResultKit.${{ steps.get_version.outputs.VERSION }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages-${{ steps.get_version.outputs.VERSION }}
+          path: |
+            ./artifacts/*.nupkg
+            ./artifacts/*.snupkg
+          retention-days: 90
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## NuGet Packages
+
+            - [Fox.ConfigKit ${{ steps.get_version.outputs.VERSION }}](https://www.nuget.org/packages/Fox.ConfigKit/${{ steps.get_version.outputs.VERSION }})
+            - [Fox.ConfigKit.ResultKit ${{ steps.get_version.outputs.VERSION }}](https://www.nuget.org/packages/Fox.ConfigKit.ResultKit/${{ steps.get_version.outputs.VERSION }})
+
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+          files: |
+            ./artifacts/*.nupkg
+            ./artifacts/*.snupkg
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
