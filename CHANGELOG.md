@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No unreleased changes yet._
 
+## [1.0.4] - 2026-02-10
+
+### Fixed
+
+#### Documentation
+- Fixed Author name in package READMEs to include proper accented characters: **Károly Akácz**
+- Project-specific READMEs (src/Fox.ConfigKit/README.md and src/Fox.ConfigKit.ResultKit/README.md) now display Author name correctly
+
+### Changed
+- Version bumped to 1.0.4 for both Fox.ConfigKit and Fox.ConfigKit.ResultKit packages
+- PackageReleaseNotes updated to describe Author name fix
+
 ## [1.0.3] - 2026-02-10
 
 ### Fixed

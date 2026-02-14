@@ -2,7 +2,7 @@
 
     <PropertyGroup Label="Framework and Language">
         <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <IsPackable>true</IsPackable>
         <AssemblyName>Fox.ConfigKit.ResultKit</AssemblyName>
         <RootNamespace>Fox.ConfigKit.ResultKit</RootNamespace>
@@ -19,7 +19,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts</PackageOutputPath>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <PackageReleaseNotes>Version 1.0.3: Fix NuGet package README - use project README instead of root (removes emoji from H1 for NuGet.org compatibility).</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 1.0.4: Fix Author name in package README (restore accented characters: Károly Akácz).</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/akikari/Fox.ConfigKit</RepositoryUrl>
         <PackageProjectUrl>https://github.com/akikari/Fox.ConfigKit</PackageProjectUrl>

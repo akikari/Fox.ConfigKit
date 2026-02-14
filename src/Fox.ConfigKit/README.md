@@ -227,7 +227,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](https://g
 
 ##  Author
 
-**Kroly Akcz**
+**Károly Akácz**
 
 - GitHub: [@akikari](https://github.com/akikari)
 - Repository: [Fox.ConfigKit](https://github.com/akikari/Fox.ConfigKit)

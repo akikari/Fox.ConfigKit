@@ -77,7 +77,7 @@ Install-Package Fox.ConfigKit
 
 **PackageReference:**
 ```xml
-<PackageReference Include="Fox.ConfigKit" Version="1.0.0" />
+<PackageReference Include="Fox.ConfigKit" Version="1.0.4" />
 ```
 
 ## 🚀 Quick Start
@@ -601,7 +601,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 ## 📊 Project Status
 
-Current version: **1.0.3**
+Current version: **1.0.4**
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
