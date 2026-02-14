@@ -1,10 +1,10 @@
-# đźŽŻ Fox.ConfigKit.ResultKit
+# Fox.ConfigKit.ResultKit
 
-> **Integration package combining Fox.ConfigKit configuration validation with Fox.ResultKit Railway Oriented Programming**
+> Integration package combining Fox.ConfigKit configuration validation with Fox.ResultKit Railway Oriented Programming
 
 This package bridges Fox.ConfigKit's configuration validation with Fox.ResultKit's Result pattern, enabling functional-style configuration validation workflows.
 
-## đź“¦ Installation
+##  Installation
 
 ```bash
 dotnet add package Fox.ConfigKit.ResultKit
@@ -20,7 +20,7 @@ Install-Package Fox.ConfigKit.ResultKit
 <PackageReference Include="Fox.ConfigKit.ResultKit" Version="1.0.0" />
 ```
 
-## đźŽŻ Core Concepts
+## Core Concepts
 
 ### Configuration Validation with Result Pattern
 
@@ -71,7 +71,7 @@ if (configValidation.IsFailure)
 }
 ```
 
-## đź”‘ Key Usage Patterns
+##  Key Usage Patterns
 
 ### Functional Configuration Validation
 
@@ -145,7 +145,7 @@ public Result<AppSettings> ValidateAllConfigurations(
 }
 ```
 
-## đź”Ą Common Scenarios
+##  Common Scenarios
 
 ### Startup Validation Pipeline
 
@@ -205,9 +205,9 @@ if (validationResult.IsFailure)
 }
 ```
 
-## đź“Š When to Use Fox.ConfigKit.ResultKit
+##  When to Use Fox.ConfigKit.ResultKit
 
-### âś… Use Fox.ConfigKit.ResultKit when:
+###  Use Fox.ConfigKit.ResultKit when:
 
 - You're already using Fox.ResultKit for Railway Oriented Programming
 - You want functional-style configuration validation
@@ -216,21 +216,21 @@ if (validationResult.IsFailure)
 - You prefer explicit error handling over exceptions
 - You want to chain configuration validation with application startup logic
 
-### âťŚ Don't use Fox.ConfigKit.ResultKit when:
+###  Don't use Fox.ConfigKit.ResultKit when:
 
 - You don't use Fox.ResultKit or Result pattern
 - You prefer exception-based error handling
 - You only need simple startup validation (use Fox.ConfigKit directly with `ValidateOnStartup`)
 - You're not familiar with Railway Oriented Programming
 
-## đź”„ Standalone vs. DI Usage
+##  Standalone vs. DI Usage
 
 ### Standalone Validation (ConfigValidator)
 
 Use `ConfigValidator.Validate<T>()` for:
 
 ```csharp
-// âś… Console applications
+//  Console applications
 static void Main(string[] args)
 {
     var config = LoadConfiguration();
@@ -245,7 +245,7 @@ static void Main(string[] args)
     }
 }
 
-// âś… Unit tests
+//  Unit tests
 [Fact]
 public void Configuration_should_be_valid()
 {
@@ -257,7 +257,7 @@ public void Configuration_should_be_valid()
     result.IsSuccess.Should().BeTrue();
 }
 
-// âś… Functional composition
+//  Functional composition
 public Result<Database> InitializeDatabase(DatabaseConfig config)
 {
     return ConfigValidator.Validate<DatabaseConfig>()
@@ -272,7 +272,7 @@ public Result<Database> InitializeDatabase(DatabaseConfig config)
 Use `AddConfigKit<T>()` with `ValidateOnStartup()` for ASP.NET Core:
 
 ```csharp
-// âś… ASP.NET Core applications with dependency injection
+//  ASP.NET Core applications with dependency injection
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddConfigKit<DatabaseConfig>("Database")
@@ -280,7 +280,7 @@ builder.Services.AddConfigKit<DatabaseConfig>("Database")
     .InRange(c => c.MaxPoolSize, 1, 1000, "Pool size must be between 1 and 1000")
     .ValidateOnStartup();
 
-var app = builder.Build(); // â† Validation happens here (fail-fast)
+var app = builder.Build(); //  Validation happens here (fail-fast)
 app.Run();
 ```
 
@@ -292,30 +292,30 @@ app.Run();
 | **Returns** | `ConfigValidationBuilder<T>` | `ConfigValidationBuilder<T>` |
 | **Validation Timing** | Explicit (when you call `.ToResult()`) | Automatic at startup |
 | **Result Type** | `Result<T>`, `ErrorsResult` | Exception on failure |
-| **DI Required** | âťŚ No | âś… Yes |
-| **IOptions Integration** | âťŚ No | âś… Yes |
+| **DI Required** |  No |  Yes |
+| **IOptions Integration** |  No |  Yes |
 
-## đź”— Related Packages
+##  Related Packages
 
 - **[Fox.ConfigKit](https://www.nuget.org/packages/Fox.ConfigKit/)** - Core configuration validation library
 - **[Fox.ResultKit](https://www.nuget.org/packages/Fox.ResultKit/)** - Lightweight Result pattern library for Railway Oriented Programming
 
-## đź“š Full Documentation
+##  Full Documentation
 
 For comprehensive documentation, advanced scenarios, and API reference, see the [GitHub repository](https://github.com/akikari/Fox.ConfigKit).
 
-## đź“ť License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/akikari/Fox.ConfigKit/blob/main/LICENSE.txt) file for details.
 
-## đź‘¤ Author
+##  Author
 
-**KĂˇroly AkĂˇcz**
+**Kroly Akcz**
 
 - GitHub: [@akikari](https://github.com/akikari)
 - Repository: [Fox.ConfigKit](https://github.com/akikari/Fox.ConfigKit)
 
-## đź™Ź Acknowledgments
+##  Acknowledgments
 
 Inspired by:
 

@@ -1,10 +1,10 @@
-# đźŽŻ Fox.ConfigKit
+# Fox.ConfigKit
 
-> **Lightweight .NET configuration validation library with fail-fast startup validation**
+> Lightweight .NET configuration validation library with fail-fast startup validation
 
 Fox.ConfigKit validates `IOptions<T>` configurations at application startup, catching errors before they cause runtime failures.
 
-## đź“¦ Installation
+##  Installation
 
 ```bash
 dotnet add package Fox.ConfigKit
@@ -20,7 +20,7 @@ Install-Package Fox.ConfigKit
 <PackageReference Include="Fox.ConfigKit" Version="1.0.0" />
 ```
 
-## đźŽŻ Core Concepts
+## Core Concepts
 
 ### Fail-Fast Validation
 
@@ -63,7 +63,7 @@ public class MyService
 }
 ```
 
-## đź”‘ Key Validation Rules
+##  Key Validation Rules
 
 ### String Validation
 
@@ -146,7 +146,7 @@ builder.Services.AddConfigKit<SecurityConfig>("Security")
     .ValidateOnStartup();
 ```
 
-## đź”Ą Common Scenarios
+##  Common Scenarios
 
 ### Database Configuration
 
@@ -194,9 +194,9 @@ builder.Services.AddConfigKit<DatabaseConfig>("Database")
     .ValidateOnStartup();
 ```
 
-## đź“Š When to Use Fox.ConfigKit
+##  When to Use Fox.ConfigKit
 
-### âś… Use Fox.ConfigKit when:
+###  Use Fox.ConfigKit when:
 
 - You want to catch configuration errors at startup, not runtime
 - You need to validate `IOptions<T>` configuration classes
@@ -205,34 +205,34 @@ builder.Services.AddConfigKit<DatabaseConfig>("Database")
 - You want to verify external dependencies (URLs, files) at startup
 - You need to enforce configuration constraints across environments
 
-### âťŚ Don't use Fox.ConfigKit when:
+###  Don't use Fox.ConfigKit when:
 
 - You need runtime validation of user input (use FluentValidation, DataAnnotations)
 - You need complex, multi-step validation workflows
 - You want to validate DTOs or request models (not configuration)
 - You need async validation beyond startup checks
 
-## đź”— Related Packages
+##  Related Packages
 
 - **[Fox.ConfigKit.ResultKit](https://www.nuget.org/packages/Fox.ConfigKit.ResultKit/)** - Integration with Result pattern for functional configuration validation
 - **[Fox.ResultKit](https://www.nuget.org/packages/Fox.ResultKit/)** - Lightweight Result pattern library for Railway Oriented Programming
 
-## đź“š Full Documentation
+##  Full Documentation
 
 For comprehensive documentation, advanced scenarios, and API reference, see the [GitHub repository](https://github.com/akikari/Fox.ConfigKit).
 
-## đź“ť License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/akikari/Fox.ConfigKit/blob/main/LICENSE.txt) file for details.
 
-## đź‘¤ Author
+##  Author
 
-**KĂˇroly AkĂˇcz**
+**Kroly Akcz**
 
 - GitHub: [@akikari](https://github.com/akikari)
 - Repository: [Fox.ConfigKit](https://github.com/akikari/Fox.ConfigKit)
 
-## đź™Ź Acknowledgments
+##  Acknowledgments
 
 Inspired by the following concepts:
 
