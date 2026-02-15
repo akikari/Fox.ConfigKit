@@ -1,4 +1,4 @@
-# GitHub Copilot Instructions - ResultKit
+# GitHub Copilot Instructions - Fox.ConfigKit
 
 ## General Guidelines
 - Always ask for permission before committing to Git. Keep commits clean and controlled.

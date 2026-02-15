@@ -35,7 +35,7 @@ var result = Result<int>.Success(42);
 
 ## 🌍 Environment
 
-- **Fox.ResultKit Version**: [e.g., 1.0.0]
+- **Fox.ConfigKit Version**: [e.g., 1.0.0]
 - **.NET Version**: [e.g., .NET 8.0]
 - **OS**: [e.g., Windows 11, Ubuntu 22.04]
 - **IDE**: [e.g., Visual Studio 2022, Rider 2023.3]

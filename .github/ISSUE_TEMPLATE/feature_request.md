@@ -34,7 +34,7 @@ Add any other context, screenshots, or examples about the feature request here.
 
 ## ⚠️ Important Note
 
-**Fox.ResultKit is intentionally lightweight and feature-focused.** Before submitting, please consider:
+**Fox.ConfigKit is intentionally lightweight and feature-focused.** Before submitting, please consider:
 
 - Does this feature align with the library's philosophy of simplicity?
 - Would this add external dependencies?
