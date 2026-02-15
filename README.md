@@ -1,9 +1,10 @@
 # 🎯 Fox.ConfigKit
 
+[![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-512BD4)](https://dotnet.microsoft.com/)
 [![Build Status](https://github.com/akikari/Fox.ConfigKit/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/akikari/Fox.ConfigKit/actions/workflows/build-and-test.yml)
 [![NuGet](https://img.shields.io/nuget/v/Fox.ConfigKit.svg)](https://www.nuget.org/packages/Fox.ConfigKit/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/Fox.ConfigKit?label=downloads)](https://www.nuget.org/packages/Fox.ConfigKit/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Fox.ConfigKit?label=downloads&color=darkgreen)](https://www.nuget.org/packages/Fox.ConfigKit/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](https://opensource.org/licenses/MIT)
 
 > **Lightweight .NET configuration validation library with fail-fast startup validation**
 
