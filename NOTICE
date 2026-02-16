@@ -1,0 +1,22 @@
+Fox.ConfigKit - Copyright Notice
+=================================
+
+Copyright (c) 2026 Károly Akácz
+
+This software is licensed under the MIT License.
+See LICENSE.txt for the full license text.
+
+Original Author: Károly Akácz
+Project URL: https://github.com/akikari/Fox.ConfigKit
+
+This library provides lightweight configuration validation for .NET applications,
+enabling fail-fast startup validation of IOptions<T> configurations with fluent,
+expressive validation rules.
+
+Key Components:
+- Fox.ConfigKit: Core library with validation rules and startup integration
+- Fox.ConfigKit.ResultKit: Integration with Fox.ResultKit for Railway Oriented Programming
+
+All contributions, modifications, and derivative works must retain this notice
+and the MIT License terms.
+

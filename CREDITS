@@ -1,0 +1,116 @@
+Credits
+=======
+
+Fox.ConfigKit and Fox.ConfigKit.ResultKit are original works created and maintained
+by Károly Akácz.
+
+Author
+------
+
+Károly Akácz
+  GitHub: @akikari (https://github.com/akikari)
+  Project: https://github.com/akikari/Fox.ConfigKit
+
+
+Project Philosophy
+------------------
+
+Fox.ConfigKit embodies a set of core design principles that guide its development:
+
+Fail-Fast Validation
+  The library is built on the principle that configuration errors should be caught
+  at application startup, not discovered at runtime. This design choice prevents
+  cascading failures and provides immediate feedback to developers and operators.
+
+Explicit Over Implicit
+  All validation rules are explicitly declared using a fluent API, making the
+  configuration contract clear and discoverable. There are no hidden validations
+  or magic conventions—what you see is what you get.
+
+Type Safety First
+  Leveraging C#'s strong type system and modern language features (nullable
+  reference types, expression trees, generic constraints), Fox.ConfigKit provides
+  compile-time safety wherever possible, reducing the surface area for runtime
+  errors.
+
+Zero External Dependencies
+  The library deliberately depends only on core Microsoft.Extensions packages
+  (Options, DependencyInjection). This decision ensures long-term stability,
+  reduces dependency conflicts, and maintains a minimal attack surface.
+
+Developer Experience
+  Clear error messages, IntelliSense-friendly APIs, and comprehensive XML
+  documentation are first-class concerns. The library is designed to be intuitive
+  for developers familiar with ASP.NET Core's IOptions pattern.
+
+
+Architectural Decisions
+------------------------
+
+Fox.ConfigKit (Core Library)
+  The core library provides a lightweight abstraction over Microsoft.Extensions.Options
+  with three main components:
+
+  1. Validation Rules - Composable, chainable validation primitives (NotNull,
+     InRange, FileExists, etc.)
+  2. Builder Pattern - ConfigValidationBuilder provides a fluent API for constructing
+     validation pipelines
+  3. Startup Integration - ValidateOnStartup() hooks into ASP.NET Core's startup
+     lifecycle for fail-fast behavior
+
+  The architecture deliberately avoids complex abstractions, favoring simple,
+  testable components that compose well.
+
+Fox.ConfigKit.ResultKit (Integration Package)
+  This package bridges Fox.ConfigKit with Fox.ResultKit's Result pattern, enabling
+  functional-style configuration validation for applications already using Railway
+  Oriented Programming.
+
+  Key design choice: The integration is opt-in and packaged separately to avoid
+  forcing the Result pattern on users who prefer exception-based error handling.
+
+
+Inspirations
+------------
+
+This project draws inspiration from:
+
+  - Microsoft.Extensions.Options - The foundation for .NET configuration patterns
+  - Railway Oriented Programming (Scott Wlaschin) - Fail-fast error handling principles
+  - FluentValidation - Fluent API design patterns (though Fox.ConfigKit is purpose-built
+    for startup validation, not runtime validation)
+  - Domain-Driven Design - Explicit validation of invariants and fail-fast philosophy
+
+
+Acknowledgments
+---------------
+
+Special thanks to the .NET open-source community for:
+  - Microsoft.Extensions.Options - Providing the IOptions abstraction
+  - Fox.ResultKit - Enabling functional composition with the Result pattern
+  - All contributors, testers, and users who help improve this library
+
+
+Contributing
+------------
+
+Fox.ConfigKit welcomes contributions that align with its design philosophy:
+  - Lightweight, focused features
+  - No new dependencies
+  - Comprehensive tests
+  - Clear documentation
+
+See CONTRIBUTING.md for details.
+
+
+License
+-------
+
+Fox.ConfigKit is licensed under the MIT License.
+Copyright (c) 2026 Károly Akácz
+
+This is a permissive license that allows you to use, modify, and distribute this
+software freely, including in commercial applications. The only requirement is to
+include the copyright notice and license text in your distributions.
+
+See LICENSE.txt for the full license text.
