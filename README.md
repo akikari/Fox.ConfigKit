@@ -1,7 +1,7 @@
 # 🎯 Fox.ConfigKit
 
 [![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-512BD4)](https://dotnet.microsoft.com/)
-[![Build Status](https://github.com/akikari/Fox.ConfigKit/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/akikari/Fox.ConfigKit/actions/workflows/build-and-test.yml)
+[![Build and Test](https://img.shields.io/github/actions/workflow/status/akikari/Fox.ResultKit/build-and-test.yml?branch=main&label=build%20and%20test&color=darkgreen)](https://github.com/akikari/Fox.ResultKit/actions/workflows/build-and-test.yml)
 [![NuGet](https://img.shields.io/nuget/v/Fox.ConfigKit.svg)](https://www.nuget.org/packages/Fox.ConfigKit/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Fox.ConfigKit?label=downloads&color=darkgreen)](https://www.nuget.org/packages/Fox.ConfigKit/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](https://opensource.org/licenses/MIT)
@@ -602,7 +602,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 ## 📊 Project Status
 
-Current version: **1.0.4**
+[![NuGet Version](https://img.shields.io/nuget/v/Fox.ConfigKit.svg?label=version&color=blue)](https://www.nuget.org/packages/Fox.ConfigKit/)
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
