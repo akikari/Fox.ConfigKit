@@ -329,6 +329,119 @@ builder.Services.AddConfigKit<DatabaseConfig>("Database")
     .ValidateOnStartup();
 ```
 
+### Environment-Specific Configuration Structures
+
+When different environments require structurally different configurations (e.g., local authentication in DEV, OAuth in PROD/TEST), you have two approaches:
+
+#### Approach 1: Union Configuration with Conditional Validation
+
+Use a single configuration class with nullable properties for environment-specific fields:
+
+```csharp
+public sealed class AuthConfig
+{
+    public string Type { get; set; } = string.Empty; // "Local" or "OAuth"
+
+    // DEV environment only
+    public string? LocalUsername { get; set; }
+    public string? LocalPassword { get; set; }
+
+    // PROD/TEST environment only
+    public string? OAuthClientId { get; set; }
+    public string? OAuthClientSecret { get; set; }
+    public string? OAuthAuthority { get; set; }
+}
+
+builder.Services.AddConfigKit<AuthConfig>("Auth")
+    .NotEmpty(c => c.Type, "Authentication type is required")
+    .When(c => c.Type == "Local", b =>
+    {
+        b.NotEmpty(c => c.LocalUsername, "Username required for local auth")
+         .NotEmpty(c => c.LocalPassword, "Password required for local auth");
+    })
+    .When(c => c.Type == "OAuth", b =>
+    {
+        b.NotEmpty(c => c.OAuthClientId, "ClientId required for OAuth")
+         .NotEmpty(c => c.OAuthClientSecret, "ClientSecret required for OAuth")
+         .NotEmpty(c => c.OAuthAuthority, "Authority URL required for OAuth")
+         .UrlReachable(c => c.OAuthAuthority!, TimeSpan.FromSeconds(10), 
+                      "OAuth authority not reachable");
+    })
+    .ValidateOnStartup();
+```
+
+**Pros:**
+- ✅ Single configuration class
+- ✅ `appsettings.{Environment}.json` automatically overrides values
+- ✅ Works with existing `When()` API
+
+**Cons:**
+- ❌ Nullable properties for environment-specific fields
+- ❌ Less type-safe (union type instead of separate types)
+
+#### Approach 2: Environment-Specific Configuration Classes
+
+Use separate configuration classes for each environment and register conditionally:
+
+```csharp
+public interface IAuthConfig 
+{ 
+    string Type { get; }
+}
+
+public sealed class LocalAuthConfig : IAuthConfig
+{
+    public string Type => "Local";
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}
+
+public sealed class OAuthConfig : IAuthConfig
+{
+    public string Type => "OAuth";
+    public string ClientId { get; set; } = string.Empty;
+    public string ClientSecret { get; set; } = string.Empty;
+    public string Authority { get; set; } = string.Empty;
+}
+
+// Program.cs - conditional registration based on environment
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddConfigKit<LocalAuthConfig>("Auth")
+        .NotEmpty(c => c.Username, "Username required")
+        .NotEmpty(c => c.Password, "Password required")
+        .ValidateOnStartup();
+
+    builder.Services.AddSingleton<IAuthConfig>(sp => 
+        sp.GetRequiredService<IOptions<LocalAuthConfig>>().Value);
+}
+else // Production/Test
+{
+    builder.Services.AddConfigKit<OAuthConfig>("Auth")
+        .NotEmpty(c => c.ClientId, "ClientId required")
+        .NotEmpty(c => c.ClientSecret, "ClientSecret required")
+        .NotEmpty(c => c.Authority, "Authority URL required")
+        .UrlReachable(c => c.Authority, TimeSpan.FromSeconds(10), 
+                     "OAuth authority not reachable")
+        .ValidateOnStartup();
+
+    builder.Services.AddSingleton<IAuthConfig>(sp => 
+        sp.GetRequiredService<IOptions<OAuthConfig>>().Value);
+}
+```
+
+**Pros:**
+- ✅ Type-safe configuration classes without nullable properties
+- ✅ Clear separation of environment-specific concerns
+- ✅ Compile-time enforcement of configuration structure
+
+**Cons:**
+- ❌ More complex DI registration (if/else in startup)
+- ❌ Requires separate `appsettings.{Environment}.json` files with different schemas
+- ❌ Two separate validation builders
+
+**Recommendation:** Use **Approach 1** for simple environment differences (different values). Use **Approach 2** when environments have fundamentally different authentication mechanisms or infrastructure dependencies.
+
 ### Custom Validation Rules
 
 Create custom validation rules by inheriting from `ValidationRuleBase`:
