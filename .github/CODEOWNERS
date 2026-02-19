@@ -7,7 +7,7 @@
 
 # Core library
 /src/Fox.ConfigKit/ @akikari
-/src/Fox.ConfigKit.MediatR/ @akikari
+/src/Fox.ConfigKit.ResultKit/ @akikari
 
 # Tests
 /tests/ @akikari
