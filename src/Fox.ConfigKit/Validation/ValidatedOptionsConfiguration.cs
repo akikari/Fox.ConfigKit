@@ -2,6 +2,7 @@
 // Wrapper for options with validation configuration.
 // Internal class for storing validation builders per options type.
 //==================================================================================================
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
 
 namespace Fox.ConfigKit.Validation;
@@ -13,6 +14,7 @@ namespace Fox.ConfigKit.Validation;
 /// <typeparam name="T">The type of options to validate.</typeparam>
 /// <param name="builder">The validation builder containing the rules.</param>
 //==================================================================================================
+[ExcludeFromCodeCoverage]
 internal sealed class ValidatedOptionsConfiguration<T>(ConfigValidationBuilder<T> builder) : IValidateOptions<T> where T : class
 {
     #region Public Methods

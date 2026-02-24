@@ -40,7 +40,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore --warnaserror
 
     - name: Run tests
-      run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --settings coverlet.runsettings
 
     - name: Upload coverage to Codecov
       if: matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.0.x'
@@ -48,7 +48,9 @@ jobs:
       with:
         files: '**/coverage.cobertura.xml'
         flags: unittests
-        fail_ci_if_error: false
+        name: codecov-fox-configkit
+        fail_ci_if_error: true
+        verbose: true
 
   pack-validation:
     name: Pack Validation
