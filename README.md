@@ -13,17 +13,22 @@ Fox.ConfigKit is a lightweight library for validating `IOptions<T>` configuratio
 
 ## 📋 Table of Contents
 
-- [Why Fox.ConfigKit?](#-why-foxconfigkit)
-- [Features](#-features)
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [Validation Rules](#-validation-rules)
-- [Advanced Scenarios](#-advanced-scenarios)
-- [Sample Application](#-sample-application)
-- [Design Principles](#-design-principles)
-- [Requirements](#-requirements)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Why Fox.ConfigKit?](#why-foxconfigkit)
+- [Features](#features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Validation Rules](#validation-rules)
+- [Advanced Scenarios](#advanced-scenarios)
+- [Sample Application](#sample-application)
+- [Design Principles](#design-principles)
+- [Requirements](#requirements)
+- [Real-World Example](#real-world-example)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
+- [Project Status](#project-status)
+- [Related Projects](#related-projects)
+- [Support](#support)
 
 ## 🤔 Why Fox.ConfigKit?
 
@@ -655,6 +660,10 @@ dotnet run
 - .NET 8.0 or higher
 - C# 12 or higher (for modern language features)
 - Nullable reference types enabled (recommended)
+
+## 🎯 Real-World Example
+
+See this package in action within a complete production-grade application: **[Fox.TaskFlow](https://github.com/akikari/Fox.TaskFlow)** - A comprehensive demonstration showcasing real-world integration of seven Fox.*Kit packages in a task management system built with Clean Architecture, SOLID principles, and modern .NET 10 practices.
 
 ## 🤝 Contributing
 
