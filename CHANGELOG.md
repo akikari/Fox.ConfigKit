@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No unreleased changes yet._
 
+## [1.0.5] - 2026-03-25
+
+### Changed
+
+#### Fox.ConfigKit.ResultKit
+- Updated Fox.ResultKit dependency from 1.2.0 to 1.3.0
+- Now supports `Result.Match()` method for functional error handling
+- Improved Result pattern integration with latest Fox.ResultKit features
+
 ## [1.0.4] - 2026-02-10
 
 ### Fixed
