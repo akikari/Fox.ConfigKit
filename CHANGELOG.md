@@ -9,6 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No unreleased changes yet._
 
+## [1.1.0] - 2026-03-28
+
+### Added
+
+#### Fox.ConfigKit
+- **Property-to-Property Comparison Validation**: New validation methods for comparing two properties within the same configuration object
+  - `GreaterThanProperty<T, TValue>(selector, compareToSelector, message)` - Validates that one property is greater than another (exclusive)
+  - `LessThanProperty<T, TValue>(selector, compareToSelector, message)` - Validates that one property is less than another (exclusive)
+  - `MinimumProperty<T, TValue>(selector, compareToSelector, message)` - Validates that one property is at least another (inclusive)
+  - `MaximumProperty<T, TValue>(selector, compareToSelector, message)` - Validates that one property is at most another (inclusive)
+- New validation rules: `GreaterThanPropertyRule`, `LessThanPropertyRule`, `MinimumPropertyRule`, `MaximumPropertyRule`
+- Support for all `IComparable<T>` types including `int`, `decimal`, `DateTime`, `TimeSpan`, etc.
+- 14 new unit tests covering all property comparison scenarios (42 tests total for property comparison)
+
+#### Fox.ConfigKit.ResultKit
+- Property-to-property comparison validation now available through `ConfigValidator.Validate<T>()` API
+- Full integration with `ToValidationResult()` for functional error handling
+
+#### Documentation
+- Updated README.md with property-to-property comparison examples
+- Updated package README files (src/Fox.ConfigKit/README.md and src/Fox.ConfigKit.ResultKit/README.md)
+- Added comprehensive examples in sample project (Fox.ConfigKit.Samples.WebApi)
+- New `MigrationConfig` sample demonstrating batch processing validation (RecordsPerRun >= BatchSize)
+- Updated `CampaignConfig` sample with date range validation (EndDate > StartDate)
+- New API endpoint: `GET /api/configuration/migration`
+- Added Scenario 6 to testing scenarios (Property Comparison Violation)
+
+### Changed
+- Version bumped from 1.0.4/1.0.5 to 1.1.0 for both Fox.ConfigKit and Fox.ConfigKit.ResultKit packages
+- Updated Key Validation Features documentation table to include property comparison methods
+
 ## [1.0.5] - 2026-03-25
 
 ### Changed

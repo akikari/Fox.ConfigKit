@@ -294,13 +294,14 @@ public sealed class SecurityConfig
 
 ### 6. Campaign Configuration - Generic Types (decimal, DateTime, TimeSpan)
 
-**Demonstrates:** Generic validation with `decimal`, `DateTime`, and `TimeSpan`
+**Demonstrates:** Generic validation with `decimal`, `DateTime`, and `TimeSpan`, plus `GreaterThanProperty()` for property-to-property comparison
 
 ```csharp
 builder.Services.AddConfigKit<CampaignConfig>("Campaign")
     .NotEmpty(c => c.Name, "Campaign name is required")
     .Minimum(c => c.StartDate, DateTime.Today, "Campaign must start today or later")
     .GreaterThan(c => c.EndDate, DateTime.Today, "Campaign end date must be in the future")
+    .GreaterThanProperty(c => c.EndDate, c => c.StartDate, "Campaign end date must be after start date")
     .Minimum(c => c.MinimumPurchaseAmount, 0.01m, "Minimum purchase amount must be at least $0.01")
     .Maximum(c => c.MaximumDiscountPercentage, 0.75m, "Discount percentage cannot exceed 75%")
     .GreaterThan(c => c.EmailReminderInterval, TimeSpan.Zero, "Email reminder interval must be positive")
@@ -339,6 +340,48 @@ public sealed class CampaignConfig
 }
 ```
 
+### 7. Migration Configuration - Property-to-Property Comparison
+
+**Demonstrates:** `MinimumProperty()` for comparing two properties (RecordsPerRun must be >= BatchSize)
+
+```csharp
+builder.Services.AddConfigKit<MigrationConfig>("Migration")
+    .Minimum(c => c.RecordsPerRun, 0, "RecordsPerRun cannot be negative (0 = no limit)")
+    .InRange(c => c.BatchSize, 1, 100000, "Batch size must be between 1 and 100000")
+    .MinimumProperty(c => c.RecordsPerRun, c => c.BatchSize, "RecordsPerRun must be >= BatchSize (or 0 for no limit)")
+    .InRange(c => c.MaxRetryAttempts, 1, 10, "Max retry attempts must be between 1 and 10")
+    .InRange(c => c.RetryDelaySeconds, 1, 300, "Retry delay must be between 1 and 300 seconds")
+    .GreaterThan(c => c.CommandTimeoutSeconds, 0, "Command timeout must be greater than 0")
+    .ValidateOnStartup();
+```
+
+**Configuration class:**
+
+```csharp
+public sealed class MigrationConfig
+{
+    public int RecordsPerRun { get; set; }
+    public int BatchSize { get; set; }
+    public int MaxRetryAttempts { get; set; }
+    public int RetryDelaySeconds { get; set; }
+    public int CommandTimeoutSeconds { get; set; }
+}
+```
+
+**appsettings.json:**
+
+```json
+{
+  "Migration": {
+    "RecordsPerRun": 10000,
+    "BatchSize": 1000,
+    "MaxRetryAttempts": 3,
+    "RetryDelaySeconds": 5,
+    "CommandTimeoutSeconds": 30
+  }
+}
+```
+
 ## 🌐 API Endpoints
 
 | Endpoint | Description |
@@ -349,6 +392,7 @@ public sealed class CampaignConfig
 | `GET /api/configuration/logging` | View logging configuration |
 | `GET /api/configuration/security` | View security configuration |
 | `GET /api/configuration/campaign` | View campaign configuration |
+| `GET /api/configuration/migration` | View migration configuration with property comparison |
 | `GET /api/configuration/all` | View summary of all configurations |
 
 ## ⚡ Fail-Fast Behavior
@@ -416,6 +460,15 @@ Unhandled exception. Microsoft.Extensions.Options.OptionsValidationException:
 ❌ Application fails to start with error: "External API base URL is not reachable"
 ```
 
+### Scenario 6: Property Comparison Violation
+
+**Test:** Set `Migration.RecordsPerRun` to `500` and `Migration.BatchSize` to `1000` (RecordsPerRun < BatchSize)
+
+**Expected result:**
+```
+❌ Application fails to start with error: "RecordsPerRun must be >= BatchSize (or 0 for no limit)"
+```
+
 ## 💡 Real-World Benefits
 
 | Benefit | Description |
@@ -436,6 +489,7 @@ Unhandled exception. Microsoft.Extensions.Options.OptionsValidationException:
 | **Decimal Validation** | `Minimum` for prices, `Maximum` for percentages |
 | **DateTime Validation** | `Minimum` for campaign dates, `GreaterThan` for future dates |
 | **TimeSpan Validation** | `GreaterThan` for positive intervals, `Maximum` for durations |
+| **Property Comparison** | `GreaterThanProperty`, `LessThanProperty`, `MinimumProperty`, `MaximumProperty` |
 | **File System** | `DirectoryExists`, `FileExists` |
 | **Network** | `UrlReachable` |
 | **Security** | `NoPlainTextSecrets` |

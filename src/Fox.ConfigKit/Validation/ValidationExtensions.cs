@@ -157,5 +157,77 @@ public static class ValidationExtensions
         return builder.AddRule(new RegexRule<T>(selector, pattern, message));
     }
 
+    //==============================================================================================
+    /// <summary>
+    /// Validates that one property value is greater than another property value (exclusive).
+    /// </summary>
+    /// <typeparam name="T">The type of options to validate.</typeparam>
+    /// <typeparam name="TValue">The type of the value to compare.</typeparam>
+    /// <param name="builder">The configuration validation builder.</param>
+    /// <param name="selector">Expression to select the property to validate.</param>
+    /// <param name="compareToSelector">Expression to select the property to compare against.</param>
+    /// <param name="message">Custom error message.</param>
+    /// <returns>The builder for method chaining.</returns>
+    //==============================================================================================
+    public static ConfigValidationBuilder<T> GreaterThanProperty<T, TValue>(this ConfigValidationBuilder<T> builder, Expression<Func<T, TValue>> selector, Expression<Func<T, TValue>> compareToSelector, string? message = null) where T : class where TValue : IComparable<TValue>
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.AddRule(new GreaterThanPropertyRule<T, TValue>(selector, compareToSelector, message));
+    }
+
+    //==============================================================================================
+    /// <summary>
+    /// Validates that one property value is less than another property value (exclusive).
+    /// </summary>
+    /// <typeparam name="T">The type of options to validate.</typeparam>
+    /// <typeparam name="TValue">The type of the value to compare.</typeparam>
+    /// <param name="builder">The configuration validation builder.</param>
+    /// <param name="selector">Expression to select the property to validate.</param>
+    /// <param name="compareToSelector">Expression to select the property to compare against.</param>
+    /// <param name="message">Custom error message.</param>
+    /// <returns>The builder for method chaining.</returns>
+    //==============================================================================================
+    public static ConfigValidationBuilder<T> LessThanProperty<T, TValue>(this ConfigValidationBuilder<T> builder, Expression<Func<T, TValue>> selector, Expression<Func<T, TValue>> compareToSelector, string? message = null) where T : class where TValue : IComparable<TValue>
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.AddRule(new LessThanPropertyRule<T, TValue>(selector, compareToSelector, message));
+    }
+
+    //==============================================================================================
+    /// <summary>
+    /// Validates that one property value is greater than or equal to another property value (inclusive).
+    /// </summary>
+    /// <typeparam name="T">The type of options to validate.</typeparam>
+    /// <typeparam name="TValue">The type of the value to compare.</typeparam>
+    /// <param name="builder">The configuration validation builder.</param>
+    /// <param name="selector">Expression to select the property to validate.</param>
+    /// <param name="compareToSelector">Expression to select the property to compare against.</param>
+    /// <param name="message">Custom error message.</param>
+    /// <returns>The builder for method chaining.</returns>
+    //==============================================================================================
+    public static ConfigValidationBuilder<T> MinimumProperty<T, TValue>(this ConfigValidationBuilder<T> builder, Expression<Func<T, TValue>> selector, Expression<Func<T, TValue>> compareToSelector, string? message = null) where T : class where TValue : IComparable<TValue>
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.AddRule(new MinimumPropertyRule<T, TValue>(selector, compareToSelector, message));
+    }
+
+    //==============================================================================================
+    /// <summary>
+    /// Validates that one property value is less than or equal to another property value (inclusive).
+    /// </summary>
+    /// <typeparam name="T">The type of options to validate.</typeparam>
+    /// <typeparam name="TValue">The type of the value to compare.</typeparam>
+    /// <param name="builder">The configuration validation builder.</param>
+    /// <param name="selector">Expression to select the property to validate.</param>
+    /// <param name="compareToSelector">Expression to select the property to compare against.</param>
+    /// <param name="message">Custom error message.</param>
+    /// <returns>The builder for method chaining.</returns>
+    //==============================================================================================
+    public static ConfigValidationBuilder<T> MaximumProperty<T, TValue>(this ConfigValidationBuilder<T> builder, Expression<Func<T, TValue>> selector, Expression<Func<T, TValue>> compareToSelector, string? message = null) where T : class where TValue : IComparable<TValue>
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        return builder.AddRule(new MaximumPropertyRule<T, TValue>(selector, compareToSelector, message));
+    }
+
     #endregion
 }

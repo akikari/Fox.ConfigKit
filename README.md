@@ -224,6 +224,41 @@ builder.Services.AddConfigKit<ApiConfig>("Api")
     .ValidateOnStartup();
 ```
 
+### Property-to-Property Comparison
+
+Compare two properties within the same configuration object. Useful for validating date ranges, min/max pairs, and batch processing configurations.
+
+| Method | Description | Boundary |
+|--------|-------------|----------|
+| `GreaterThanProperty(selector, compareToSelector, message)` | Ensures property is greater than another property | Exclusive (>) |
+| `LessThanProperty(selector, compareToSelector, message)` | Ensures property is less than another property | Exclusive (<) |
+| `MinimumProperty(selector, compareToSelector, message)` | Ensures property is at least another property | Inclusive (>=) |
+| `MaximumProperty(selector, compareToSelector, message)` | Ensures property is at most another property | Inclusive (<=) |
+
+**Example with date ranges:**
+
+```csharp
+builder.Services.AddConfigKit<CampaignConfig>("Campaign")
+    .GreaterThanProperty(c => c.EndDate, c => c.StartDate, "End date must be after start date")
+    .ValidateOnStartup();
+```
+
+**Example with batch processing:**
+
+```csharp
+builder.Services.AddConfigKit<MigrationConfig>("Migration")
+    .MinimumProperty(c => c.RecordsPerRun, c => c.BatchSize, "RecordsPerRun must be >= BatchSize")
+    .ValidateOnStartup();
+```
+
+**Example with price ranges:**
+
+```csharp
+builder.Services.AddConfigKit<ProductConfig>("Product")
+    .LessThanProperty(c => c.MinPrice, c => c.MaxPrice, "MinPrice must be less than MaxPrice")
+    .ValidateOnStartup();
+```
+
 ### File System Validation
 
 | Method | Description |

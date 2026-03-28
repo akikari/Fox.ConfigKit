@@ -15,13 +15,17 @@ public class ConfigurationController(
     IOptions<DatabaseConfig> databaseConfig,
     IOptions<ExternalApiConfig> externalApiConfig,
     IOptions<LoggingConfig> loggingConfig,
-    IOptions<SecurityConfig> securityConfig) : ControllerBase
+    IOptions<SecurityConfig> securityConfig,
+    IOptions<CampaignConfig> campaignConfig,
+    IOptions<MigrationConfig> migrationConfig) : ControllerBase
 {
     private readonly ApplicationConfig applicationConfig = applicationConfig.Value;
     private readonly DatabaseConfig databaseConfig = databaseConfig.Value;
     private readonly ExternalApiConfig externalApiConfig = externalApiConfig.Value;
     private readonly LoggingConfig loggingConfig = loggingConfig.Value;
     private readonly SecurityConfig securityConfig = securityConfig.Value;
+    private readonly CampaignConfig campaignConfig = campaignConfig.Value;
+    private readonly MigrationConfig migrationConfig = migrationConfig.Value;
 
     [HttpGet("application")]
     public IActionResult GetApplicationConfig()
@@ -85,6 +89,35 @@ public class ConfigurationController(
         });
     }
 
+    [HttpGet("campaign")]
+    public IActionResult GetCampaignConfig()
+    {
+        return Ok(new
+        {
+            campaignConfig.Name,
+            campaignConfig.StartDate,
+            campaignConfig.EndDate,
+            campaignConfig.MinimumPurchaseAmount,
+            campaignConfig.MaximumDiscountPercentage,
+            campaignConfig.EmailReminderInterval,
+            campaignConfig.CacheDuration
+        });
+    }
+
+    [HttpGet("migration")]
+    public IActionResult GetMigrationConfig()
+    {
+        return Ok(new
+        {
+            migrationConfig.RecordsPerRun,
+            migrationConfig.BatchSize,
+            migrationConfig.MaxRetryAttempts,
+            migrationConfig.RetryDelaySeconds,
+            migrationConfig.CommandTimeoutSeconds,
+            IsValid = migrationConfig.RecordsPerRun == 0 || migrationConfig.RecordsPerRun >= migrationConfig.BatchSize
+        });
+    }
+
     [HttpGet("all")]
     public IActionResult GetAllConfigs()
     {
@@ -114,6 +147,18 @@ public class ConfigurationController(
             {
                 securityConfig.Environment,
                 securityConfig.RequireHttps
+            },
+            Campaign = new
+            {
+                campaignConfig.Name,
+                campaignConfig.StartDate,
+                campaignConfig.EndDate
+            },
+            Migration = new
+            {
+                migrationConfig.RecordsPerRun,
+                migrationConfig.BatchSize,
+                IsValid = migrationConfig.RecordsPerRun == 0 || migrationConfig.RecordsPerRun >= migrationConfig.BatchSize
             }
         });
     }

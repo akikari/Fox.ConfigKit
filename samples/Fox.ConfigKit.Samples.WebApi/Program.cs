@@ -64,15 +64,26 @@ builder.Services.AddConfigKit<SecurityConfig>("Security")
     })
     .ValidateOnStartup();
 
-// Example 6: Generic validation with decimal, DateTime, and TimeSpan types
+// Example 6: Generic validation with decimal, DateTime, and TimeSpan types + Property-to-Property comparison
 builder.Services.AddConfigKit<CampaignConfig>("Campaign")
     .NotEmpty(c => c.Name, "Campaign name is required")
     .Minimum(c => c.StartDate, DateTime.Today, "Campaign must start today or later")
     .GreaterThan(c => c.EndDate, DateTime.Today, "Campaign end date must be in the future")
+    .GreaterThanProperty(c => c.EndDate, c => c.StartDate, "Campaign end date must be after start date")
     .Minimum(c => c.MinimumPurchaseAmount, 0.01m, "Minimum purchase amount must be at least $0.01")
     .Maximum(c => c.MaximumDiscountPercentage, 0.75m, "Discount percentage cannot exceed 75%")
     .GreaterThan(c => c.EmailReminderInterval, TimeSpan.Zero, "Email reminder interval must be positive")
     .Maximum(c => c.CacheDuration, TimeSpan.FromHours(24), "Cache duration cannot exceed 24 hours")
+    .ValidateOnStartup();
+
+// Example 7: Property-to-Property comparison for batch processing
+builder.Services.AddConfigKit<MigrationConfig>("Migration")
+    .Minimum(c => c.RecordsPerRun, 0, "RecordsPerRun cannot be negative (0 = no limit)")
+    .InRange(c => c.BatchSize, 1, 100000, "Batch size must be between 1 and 100000")
+    .MinimumProperty(c => c.RecordsPerRun, c => c.BatchSize, "RecordsPerRun must be >= BatchSize (or 0 for no limit)")
+    .InRange(c => c.MaxRetryAttempts, 1, 10, "Max retry attempts must be between 1 and 10")
+    .InRange(c => c.RetryDelaySeconds, 1, 300, "Retry delay must be between 1 and 300 seconds")
+    .GreaterThan(c => c.CommandTimeoutSeconds, 0, "Command timeout must be greater than 0")
     .ValidateOnStartup();
 
 var app = builder.Build();

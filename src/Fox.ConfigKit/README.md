@@ -119,6 +119,26 @@ builder.Services.AddConfigKit<ApiConfig>("Api")
 - `Maximum(selector, max)` - Inclusive boundary (<=)
 - `InRange(selector, min, max)` - Inclusive boundaries (>=, <=)
 
+### Property-to-Property Comparison
+
+Compare two properties within the same configuration object:
+
+```csharp
+builder.Services.AddConfigKit<CampaignConfig>("Campaign")
+    .GreaterThanProperty(c => c.EndDate, c => c.StartDate, "End date must be after start date")
+    .ValidateOnStartup();
+
+builder.Services.AddConfigKit<MigrationConfig>("Migration")
+    .MinimumProperty(c => c.RecordsPerRun, c => c.BatchSize, "RecordsPerRun must be >= BatchSize")
+    .ValidateOnStartup();
+```
+
+**Available methods:**
+- `GreaterThanProperty(selector, compareToSelector)` - Property > Another Property (>)
+- `LessThanProperty(selector, compareToSelector)` - Property < Another Property (<)
+- `MinimumProperty(selector, compareToSelector)` - Property >= Another Property (>=)
+- `MaximumProperty(selector, compareToSelector)` - Property <= Another Property (<=)
+
 ### File System Validation
 
 ```csharp
