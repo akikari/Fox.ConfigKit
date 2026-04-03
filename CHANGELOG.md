@@ -13,11 +13,14 @@ _No unreleased changes yet._
 
 ### Fixed
 
+#### Fox.ConfigKit
+- **Package Versioning**: Aligned version to 1.2.1 to match ResultKit
+
 #### Fox.ConfigKit.ResultKit
 - **NuGet Dependency**: Fixed missing `Fox.ConfigKit` package dependency in NuGet package
-  - Changed from `ProjectReference` to conditional `PackageReference` in Release builds
-  - Debug builds still use `ProjectReference` for faster development iteration
-  - Ensures `Fox.ConfigKit 1.2.0` is automatically installed when using `Fox.ConfigKit.ResultKit 1.2.1`
+  - Use `ProjectReference` with `PrivateAssets="all"` for builds (both Debug and Release)
+  - Add explicit `PackageReference` with `PrivateAssets="none"` for NuGet package metadata
+  - Ensures `Fox.ConfigKit 1.2.1` is automatically installed when using `Fox.ConfigKit.ResultKit 1.2.1`
 
 ## [1.2.0] - 2026-04-03
 
