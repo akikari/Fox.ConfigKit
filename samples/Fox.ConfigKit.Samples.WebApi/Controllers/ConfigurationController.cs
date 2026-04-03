@@ -17,7 +17,8 @@ public class ConfigurationController(
     IOptions<LoggingConfig> loggingConfig,
     IOptions<SecurityConfig> securityConfig,
     IOptions<CampaignConfig> campaignConfig,
-    IOptions<MigrationConfig> migrationConfig) : ControllerBase
+    IOptions<MigrationConfig> migrationConfig,
+    IOptions<ServerConfig> serverConfig) : ControllerBase
 {
     private readonly ApplicationConfig applicationConfig = applicationConfig.Value;
     private readonly DatabaseConfig databaseConfig = databaseConfig.Value;
@@ -26,6 +27,7 @@ public class ConfigurationController(
     private readonly SecurityConfig securityConfig = securityConfig.Value;
     private readonly CampaignConfig campaignConfig = campaignConfig.Value;
     private readonly MigrationConfig migrationConfig = migrationConfig.Value;
+    private readonly ServerConfig serverConfig = serverConfig.Value;
 
     [HttpGet("application")]
     public IActionResult GetApplicationConfig()
@@ -118,6 +120,26 @@ public class ConfigurationController(
         });
     }
 
+    [HttpGet("servers")]
+    public IActionResult GetServerConfig()
+    {
+        return Ok(new
+        {
+            serverConfig.MaxRetries,
+            serverConfig.TimeoutSeconds,
+            EndpointCount = serverConfig.Endpoints.Count,
+            EnabledEndpoints = serverConfig.Endpoints.Count(e => e.Enabled),
+            Endpoints = serverConfig.Endpoints.Select(e => new
+            {
+                e.Name,
+                e.Url,
+                e.Port,
+                e.Enabled,
+                e.HealthCheckIntervalSeconds
+            })
+        });
+    }
+
     [HttpGet("all")]
     public IActionResult GetAllConfigs()
     {
@@ -159,6 +181,11 @@ public class ConfigurationController(
                 migrationConfig.RecordsPerRun,
                 migrationConfig.BatchSize,
                 IsValid = migrationConfig.RecordsPerRun == 0 || migrationConfig.RecordsPerRun >= migrationConfig.BatchSize
+            },
+            Servers = new
+            {
+                EndpointCount = serverConfig.Endpoints.Count,
+                EnabledEndpoints = serverConfig.Endpoints.Count(e => e.Enabled)
             }
         });
     }

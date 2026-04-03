@@ -139,6 +139,36 @@ builder.Services.AddConfigKit<MigrationConfig>("Migration")
 - `MinimumProperty(selector, compareToSelector)` - Property >= Another Property (>=)
 - `MaximumProperty(selector, compareToSelector)` - Property <= Another Property (<=)
 
+### Collection Validation
+
+Validate each item in a collection with nested validation rules:
+
+```csharp
+builder.Services.AddConfigKit<ServerConfig>("Servers")
+    .ValidateEach(c => c.Endpoints,
+        itemBuilder => itemBuilder
+            .NotEmpty(e => e.Name, "Endpoint name is required")
+            .NotEmpty(e => e.Url, "Endpoint URL is required")
+            .InRange(e => e.Port, 1, 65535, "Port must be between 1 and 65535"),
+        minCount: 1,
+        emptyMessage: "At least one endpoint must be configured")
+    .ValidateOnStartup();
+```
+
+**LINQ filtering support:**
+
+Validate only filtered items (e.g., only enabled items):
+
+```csharp
+builder.Services.AddConfigKit<ServerConfig>("Servers")
+    .ValidateEach(c => c.Endpoints.Where(e => e.Enabled),
+        itemBuilder => itemBuilder
+            .GreaterThan(e => e.HealthCheckIntervalSeconds, 0, "Enabled endpoints must have positive health check interval"),
+        minCount: 1,
+        emptyMessage: "At least one enabled endpoint is required")
+    .ValidateOnStartup();
+```
+
 ### File System Validation
 
 ```csharp

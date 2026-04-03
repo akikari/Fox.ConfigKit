@@ -2,7 +2,7 @@
 
     <PropertyGroup Label="Framework and Language">
         <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <IsPackable>true</IsPackable>
         <AssemblyName>Fox.ConfigKit.ResultKit</AssemblyName>
         <RootNamespace>Fox.ConfigKit.ResultKit</RootNamespace>
@@ -19,7 +19,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\artifacts</PackageOutputPath>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <PackageReleaseNotes>Version 1.1.0: Property-to-property comparison validation support (synchronized with Fox.ConfigKit 1.1.0).</PackageReleaseNotes>
+        <PackageReleaseNotes>Version 1.2.0: Collection validation support with ValidateEach (synchronized with Fox.ConfigKit 1.2.0).</PackageReleaseNotes>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/akikari/Fox.ConfigKit</RepositoryUrl>
         <PackageProjectUrl>https://github.com/akikari/Fox.ConfigKit</PackageProjectUrl>

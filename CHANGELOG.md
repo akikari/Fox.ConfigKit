@@ -9,6 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No unreleased changes yet._
 
+## [1.2.0] - 2026-04-03
+
+### Added
+
+#### Fox.ConfigKit
+- **Collection Validation**: New `ValidateEach<T, TItem>()` extension method for validating each item in a collection
+  - Supports simple property access: `c => c.Endpoints`
+  - Supports LINQ filtering: `c => c.Endpoints.Where(e => e.Enabled)`
+  - Optional `minCount` parameter for ensuring minimum collection size
+  - Optional `emptyMessage` for custom empty collection error messages
+  - Nested validation rules: Apply full validation builder to each collection item
+- New `CollectionValidationRule<T, TItem>` internal rule with expression tree parsing
+  - Handles `MemberExpression` for simple property access
+  - Handles `MethodCallExpression` for LINQ methods (Where, Select, etc.)
+  - Custom `ExtractCollectionName()` method for proper error messages
+- 30 comprehensive unit tests covering all collection validation scenarios
+
+#### Fox.ConfigKit.ResultKit
+- Collection validation now available through `ConfigValidator.Validate<T>()` API
+- Full integration with `ToValidationResult()` for functional error handling
+
+#### Documentation
+- Updated README.md with collection validation examples and LINQ filtering
+- Added comprehensive `ServerConfig` example in sample project with endpoint validation
+- New API endpoint: `GET /api/configuration/servers`
+- Updated samples README with Example 8: Collection Validation
+- Added collection validation to Key Validation Features table
+
+### Changed
+- Version bumped from 1.1.0 to 1.2.0 for both Fox.ConfigKit and Fox.ConfigKit.ResultKit packages
+
 ## [1.1.0] - 2026-03-28
 
 ### Added

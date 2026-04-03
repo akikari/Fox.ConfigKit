@@ -86,6 +86,25 @@ builder.Services.AddConfigKit<MigrationConfig>("Migration")
     .GreaterThan(c => c.CommandTimeoutSeconds, 0, "Command timeout must be greater than 0")
     .ValidateOnStartup();
 
+// Example 8: Collection validation with ValidateEach
+builder.Services.AddConfigKit<ServerConfig>("Servers")
+    .InRange(c => c.MaxRetries, 0, 10, "Max retries must be between 0 and 10")
+    .InRange(c => c.TimeoutSeconds, 1, 300, "Timeout must be between 1 and 300 seconds")
+    .ValidateEach(c => c.Endpoints,
+        itemBuilder => itemBuilder
+            .NotEmpty(e => e.Name, "Endpoint name is required")
+            .NotEmpty(e => e.Url, "Endpoint URL is required")
+            .InRange(e => e.Port, 1, 65535, "Port must be between 1 and 65535")
+            .InRange(e => e.HealthCheckIntervalSeconds, 5, 3600, "Health check interval must be between 5 and 3600 seconds"),
+        minCount: 1,
+        emptyMessage: "At least one endpoint must be configured")
+    .ValidateEach(c => c.Endpoints.Where(e => e.Enabled),
+        itemBuilder => itemBuilder
+            .GreaterThan(e => e.HealthCheckIntervalSeconds, 0, "Enabled endpoints must have positive health check interval"),
+        minCount: 1,
+        emptyMessage: "At least one enabled endpoint is required")
+    .ValidateOnStartup();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

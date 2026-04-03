@@ -382,6 +382,84 @@ public sealed class MigrationConfig
 }
 ```
 
+### 8. Collection Validation - ValidateEach with LINQ Support
+
+**Demonstrates:** Validating each item in a collection, including LINQ filtering support
+
+```csharp
+builder.Services.AddConfigKit<ServerConfig>("Servers")
+    .InRange(c => c.MaxRetries, 0, 10, "Max retries must be between 0 and 10")
+    .InRange(c => c.TimeoutSeconds, 1, 300, "Timeout must be between 1 and 300 seconds")
+    .ValidateEach(c => c.Endpoints,
+        itemBuilder => itemBuilder
+            .NotEmpty(e => e.Name, "Endpoint name is required")
+            .NotEmpty(e => e.Url, "Endpoint URL is required")
+            .InRange(e => e.Port, 1, 65535, "Port must be between 1 and 65535")
+            .InRange(e => e.HealthCheckIntervalSeconds, 5, 3600, "Health check interval must be between 5 and 3600 seconds"),
+        minCount: 1,
+        emptyMessage: "At least one endpoint must be configured")
+    .ValidateEach(c => c.Endpoints.Where(e => e.Enabled),
+        itemBuilder => itemBuilder
+            .GreaterThan(e => e.HealthCheckIntervalSeconds, 0, "Enabled endpoints must have positive health check interval"),
+        minCount: 1,
+        emptyMessage: "At least one enabled endpoint is required")
+    .ValidateOnStartup();
+```
+
+**Configuration class:**
+
+```csharp
+public sealed class ServerConfig
+{
+    public List<ServerEndpoint> Endpoints { get; set; } = [];
+    public int MaxRetries { get; set; }
+    public int TimeoutSeconds { get; set; }
+}
+
+public sealed class ServerEndpoint
+{
+    public string Name { get; set; } = string.Empty;
+    public string Url { get; set; } = string.Empty;
+    public int Port { get; set; }
+    public bool Enabled { get; set; }
+    public int HealthCheckIntervalSeconds { get; set; }
+}
+```
+
+**appsettings.json:**
+
+```json
+{
+  "Servers": {
+    "MaxRetries": 3,
+    "TimeoutSeconds": 30,
+    "Endpoints": [
+      {
+        "Name": "Primary API",
+        "Url": "https://api.primary.example.com",
+        "Port": 443,
+        "Enabled": true,
+        "HealthCheckIntervalSeconds": 60
+      },
+      {
+        "Name": "Secondary API",
+        "Url": "https://api.secondary.example.com",
+        "Port": 443,
+        "Enabled": true,
+        "HealthCheckIntervalSeconds": 120
+      },
+      {
+        "Name": "Backup API",
+        "Url": "https://api.backup.example.com",
+        "Port": 8443,
+        "Enabled": false,
+        "HealthCheckIntervalSeconds": 0
+      }
+    ]
+  }
+}
+```
+
 ## 🌐 API Endpoints
 
 | Endpoint | Description |
@@ -393,6 +471,7 @@ public sealed class MigrationConfig
 | `GET /api/configuration/security` | View security configuration |
 | `GET /api/configuration/campaign` | View campaign configuration |
 | `GET /api/configuration/migration` | View migration configuration with property comparison |
+| `GET /api/configuration/servers` | View server endpoints configuration |
 | `GET /api/configuration/all` | View summary of all configurations |
 
 ## ⚡ Fail-Fast Behavior
@@ -490,6 +569,7 @@ Unhandled exception. Microsoft.Extensions.Options.OptionsValidationException:
 | **DateTime Validation** | `Minimum` for campaign dates, `GreaterThan` for future dates |
 | **TimeSpan Validation** | `GreaterThan` for positive intervals, `Maximum` for durations |
 | **Property Comparison** | `GreaterThanProperty`, `LessThanProperty`, `MinimumProperty`, `MaximumProperty` |
+| **Collection Validation** | `ValidateEach` for endpoint lists with LINQ filtering |
 | **File System** | `DirectoryExists`, `FileExists` |
 | **Network** | `UrlReachable` |
 | **Security** | `NoPlainTextSecrets` |

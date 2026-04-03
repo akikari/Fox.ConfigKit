@@ -63,6 +63,8 @@ builder.Services.AddConfigKit<MyConfig>("MyConfig")
 - ✅ **Fail-Fast Validation** - Catch configuration errors at application startup
 - ✅ **Fluent API** - Intuitive, type-safe configuration validation
 - ✅ **Generic Type Support** - Validate any `IComparable<T>` type (int, decimal, DateTime, TimeSpan, etc.)
+- ✅ **Property Comparison** - Compare two properties within the same configuration object
+- ✅ **Collection Validation** - Validate each item in a collection with nested rules and LINQ support
 - ✅ **Conditional Validation** - Apply rules based on environment or other properties
 - ✅ **File System Validation** - Verify directories and files exist
 - ✅ **Network Validation** - Check URL reachability at startup
@@ -84,7 +86,7 @@ Install-Package Fox.ConfigKit
 
 **PackageReference:**
 ```xml
-<PackageReference Include="Fox.ConfigKit" Version="1.0.4" />
+<PackageReference Include="Fox.ConfigKit" Version="1.2.0" />
 ```
 
 ## 🚀 Quick Start
@@ -257,6 +259,60 @@ builder.Services.AddConfigKit<MigrationConfig>("Migration")
 builder.Services.AddConfigKit<ProductConfig>("Product")
     .LessThanProperty(c => c.MinPrice, c => c.MaxPrice, "MinPrice must be less than MaxPrice")
     .ValidateOnStartup();
+```
+
+### Collection Validation
+
+Validate each item in a collection with nested validation rules. Supports simple property access and LINQ filtering.
+
+| Method | Description |
+|--------|-------------|
+| `ValidateEach<T, TItem>(collectionSelector, configureItemValidator, minCount, emptyMessage)` | Validates each item in a collection with nested rules |
+
+**Example with simple collection:**
+
+```csharp
+builder.Services.AddConfigKit<ServerConfig>("Servers")
+    .ValidateEach(c => c.Endpoints,
+        itemBuilder => itemBuilder
+            .NotEmpty(e => e.Name, "Endpoint name is required")
+            .NotEmpty(e => e.Url, "Endpoint URL is required")
+            .InRange(e => e.Port, 1, 65535, "Port must be between 1 and 65535"),
+        minCount: 1,
+        emptyMessage: "At least one endpoint must be configured")
+    .ValidateOnStartup();
+```
+
+**Example with LINQ filtering (only enabled items):**
+
+```csharp
+builder.Services.AddConfigKit<ServerConfig>("Servers")
+    .ValidateEach(c => c.Endpoints.Where(e => e.Enabled),
+        itemBuilder => itemBuilder
+            .GreaterThan(e => e.HealthCheckIntervalSeconds, 0, "Enabled endpoints must have positive health check interval"),
+        minCount: 1,
+        emptyMessage: "At least one enabled endpoint is required")
+    .ValidateOnStartup();
+```
+
+**Example with ConfigValidator (standalone, no DI):**
+
+```csharp
+using Fox.ConfigKit.ResultKit;
+
+var validationRules = ConfigValidator.Validate<FileLoggingConfig>()
+    .NotEmpty(c => c.LogDirectory, "Log directory is required")
+    .DirectoryExists(c => c.LogDirectory, "Log directory does not exist")
+    .ValidateEach(c => c.LogDefinitions.Where(l => l.Enabled),
+        itemBuilder => itemBuilder
+            .NotEmpty(l => l.Name, "Log name is required")
+            .NotEmpty(l => l.TableName, "Table name is required")
+            .InRange(l => l.BatchSize, 1, 10000, "Batch size must be between 1 and 10000"),
+        minCount: 1,
+        emptyMessage: "At least one enabled log definition is required");
+
+// Use with Result pattern (Fox.ConfigKit.ResultKit)
+var result = validationRules.ToResult(config);
 ```
 
 ### File System Validation
