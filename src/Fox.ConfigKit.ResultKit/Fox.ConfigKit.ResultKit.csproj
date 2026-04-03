@@ -2,7 +2,7 @@
 
     <PropertyGroup Label="Framework and Language">
         <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
         <IsPackable>true</IsPackable>
         <AssemblyName>Fox.ConfigKit.ResultKit</AssemblyName>
         <RootNamespace>Fox.ConfigKit.ResultKit</RootNamespace>
@@ -48,8 +48,12 @@
         <PackageReference Include="Fox.ResultKit" Version="1.3.0" />
     </ItemGroup>
 
-    <ItemGroup Label="Project References">
+    <ItemGroup Label="Project References" Condition="'$(Configuration)'=='Debug'">
         <ProjectReference Include="..\Fox.ConfigKit\Fox.ConfigKit.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Label="Package Dependencies (Release)" Condition="'$(Configuration)'=='Release'">
+        <PackageReference Include="Fox.ConfigKit" Version="1.2.0" />
     </ItemGroup>
 
     <ItemGroup Label="Package Files">

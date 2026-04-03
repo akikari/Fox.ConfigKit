@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No unreleased changes yet._
 
+## [1.2.1] - 2026-04-03
+
+### Fixed
+
+#### Fox.ConfigKit.ResultKit
+- **NuGet Dependency**: Fixed missing `Fox.ConfigKit` package dependency in NuGet package
+  - Changed from `ProjectReference` to conditional `PackageReference` in Release builds
+  - Debug builds still use `ProjectReference` for faster development iteration
+  - Ensures `Fox.ConfigKit 1.2.0` is automatically installed when using `Fox.ConfigKit.ResultKit 1.2.1`
+
 ## [1.2.0] - 2026-04-03
 
 ### Added
