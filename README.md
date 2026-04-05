@@ -13,22 +13,21 @@ Fox.ConfigKit is a lightweight library for validating `IOptions<T>` configuratio
 
 ## 📋 Table of Contents
 
-- [Why Fox.ConfigKit?](#why-foxconfigkit)
-- [Features](#features)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Validation Rules](#validation-rules)
-- [Advanced Scenarios](#advanced-scenarios)
-- [Sample Application](#sample-application)
-- [Design Principles](#design-principles)
-- [Requirements](#requirements)
-- [Real-World Example](#real-world-example)
-- [Contributing](#contributing)
-- [License](#license)
-- [Author](#author)
-- [Project Status](#project-status)
-- [Related Projects](#related-projects)
-- [Support](#support)
+- [Why Fox.ConfigKit?](#-why-foxconfigkit)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Validation Rules](#-validation-rules)
+- [Advanced Scenarios](#-advanced-scenarios)
+- [Result Pattern Integration (Optional)](#-result-pattern-integration-optional)
+- [Sample Application](#-sample-application)
+- [Design Principles](#-design-principles)
+- [Real-World Example](#-real-world-example)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Project Status](#-project-status)
+- [Related Projects](#-related-projects)
+- [Support](#-support)
 
 ## 🤔 Why Fox.ConfigKit?
 
